@@ -47,8 +47,7 @@ deep salience representations for f0 estimation (https://github.com/rabitt/ismir
 voiced melody from the background using spleeter (https://github.com/deezer/spleeter) and then uses pYIN for the melody and deep salience representations 
 for the accompainment. Returns a dataframe with time points as well as pitch estimates for all lines.
 
-For solo and vocal music, the pitch estimation will be improved by providing estimates of the lowest and the highest notes in the melody. The estimates will 
-not be used for polyphonic pitch estimation. 
+For solo and vocal music, the pitch estimation will be improved by providing estimates of the lowest and the highest notes in the melody. The estimates will not be used for polyphonic pitch estimation. 
 
 
 #### [dissonance, t_dissonance] = dissonance_extraction(pitch_df, sr):
@@ -59,7 +58,39 @@ computed by dissonant.py (https://pypi.org/project/dissonant/).
 
 ### 3. (Optional) Checking feature extraction by sonification
 
-### 4. Tension extraction
+The toolbox includes functions to sonify the estimated pitches as well as the beats and the onsets to evaluate the feature extraction by ear. 
+
+#### t_eval = tempo_evaluation(y,sr, start_bpm = 80):
+
+Returns the original piece with the extracted beats overlayed as clicks. 
+To receive the same results as in the feature extraction, the same starting value as used for the tempo extraction should be used. 
+
+#### pitch_eval = evaluate_pitch(pitches, times, sr):
+
+Pitch sonification for the melody line if using vocal music. Returns the sonified pitch contour estimated for the vocal melody. Only applicable if category = "voice" in the pitch extraction. 
+
+#### pitch_eval, pitch_lists = evaluate_polyphonic_pitch(pitch_df, sr):
+
+Pitch sonification for polyphonic pieces. The input should be the dataframe returned by the pitch extraction function. Returns the sonified pitches extracted by the deep salience representations.
+
+If you wish to save the audios, this can be achieved by: 
+
+audio = ipd.Audio(pitch_eval, rate=sr)
+audio = AudioSegment(audio.data, frame_rate=sr, sample_width=2, channels=1)
+audio.export("polyphonic_pitch.wav", format="wav", bitrate="64k")
+
+
+### 4. Tension prediction
+
+The tension prediction involves several steps: 
+
+- Standardizing and merging all features 
+- (Optional) Plotting all features over time
+- Smoothing the features to enable an adequate slope detection
+- Resampling the features: The toolbox includes methodes to resample at 10 Hz or at the beats (recommended: resampling at the beats)
+- Tension prediction: The toolbox implements two different versions of the tension prediction that rely on the same basic model. One method uses different attentional windows for each feature. The other method applies different weights to every feature. See the publication for more details. We recommend using different attentional windows as this methods yielded the best results for our investigation and additionally, seems to display a cognitively plausible method. 
+
+
 
 
 
