@@ -6,7 +6,7 @@ The tension extraction relies on the tension model developed by Farbood and Upha
 
 Please note that the toolbox was developed to work with .wav files. Consider transforming your music files to .wav in order to use the functions. 
 
-### 1. Loading Audio & Basics
+## 1. Loading Audio & Basics
 
 #### y,sr,trimmed_audio_path = music_loading(file_name, path, sr = 44100):
 
@@ -19,7 +19,7 @@ path = absolute or relative path to your .wav
 Returns the trimmed audio file, the sampling rate, and the path to the trimmed audio file for later use during feature extraction.
 
 
-### 2. Feature extraction
+## 2. Feature extraction
 
 #### [tempo, t_tempo] = tempo_extraction(y,sr, tempo_guess = 80):
 
@@ -59,7 +59,7 @@ Estimates the dissonance at each time point by using the pitch estimated by the 
 computed by dissonant.py (https://pypi.org/project/dissonant/). 
 
 
-### 3. (Optional) Checking feature extraction by sonification
+## 3. (Optional) Checking feature extraction by sonification
 
 The toolbox includes functions to sonify the estimated pitches as well as the beats and the onsets to evaluate the feature extraction by ear. 
 
@@ -87,11 +87,12 @@ audio = AudioSegment(audio.data, frame_rate=sr, sample_width=2, channels=1)
 audio.export("polyphonic_pitch.wav", format="wav", bitrate="64k")
 
 
-### 4. Tension prediction
+## 4. Tension prediction
 
 The tension prediction involves several steps: 
 
-- Standardizing and merging all features 
+
+### Standardizing and merging all features 
 
 #### df_all_features, df_plot, pitch_df, onset_env = feature_extraction(y, sr, trimmed_audio_path):
 
@@ -100,20 +101,20 @@ This function extracts all features applying the functions explained above. Addi
 The function returns a dataframe containing all features and time stamps, as well as the same dataframe in which na values have been padded for plotting purposes. Additionally, the dataframe containing all pitch lines and the onset envelope are returned for use in other functions. 
 
 
-- (Optional) Plotting all features over time
+### (Optional) Plotting all features over time
 
 #### plot_features(df_plot, color_list):
 
 This function plots all the features over time with a predefined color list and simultaneously generates a legend. 
 
 
-- Smoothing the features to enable an adequate slope detection
+### Smoothing the features to enable an adequate slope detection
 
 #### features_smooth = feature_smoothing(df_plot):
 
 This function smoothes the extracted features using a running mean filter. The window size is determined by the sampling rate as well as by the length of the audio piece at hand.
 
-- Resampling the features: The toolbox includes methodes to resample at 10 Hz or at the beats (recommended: resampling at the beats)
+### Resampling the features: The toolbox includes methodes to resample at 10 Hz or at the beats (recommended: resampling at the beats)
 
 #### all_features_beat, all_features_beat_unsmoothed, beat_times = feature_resampling_beat(onset_env,sr, features_smooth, df_plot):
 
@@ -123,7 +124,8 @@ Resamples the smoothed features at the beats. Here, we use the onset envelope th
 
 The function resamples the smoothed features at 10 Hz (10 sampling points per second), as this time scale was used in previous research. The function returns a dataframe containing the smoothed features sampled at 10 Hz for tension prediction as well as another dataframe containing the unsmoothed features sampled at 10 Hz for plotting purposes.
 
-- Tension prediction: The toolbox implements two different versions of the tension prediction that rely on the same basic model. One method uses different attentional windows for each feature. The other method applies different weights to every feature. See the publication for more details. We recommend using different attentional windows as this methods yielded the best results for our investigation and additionally, it seems to display a cognitively plausible method. 
+### Tension prediction: 
+The toolbox implements two different versions of the tension prediction that rely on the same basic model. One method uses different attentional windows for each feature. The other method applies different weights to every feature. See the publication for more details. We recommend using different attentional windows as this methods yielded the best results for our investigation and additionally, it seems to display a cognitively plausible method. 
 
 In total, the toolbox includes for functions for tension prediction: One function for each method x sampling rate combination. Please note, that the difference in sampling rate (10 Hz versus beats) is only relevant for the actual tension prediction. After the tension prediction, the predicted tension is automatically resampled at the beats to join the tension with the behavioral responses. Although it is only relevant for this step, the choice of sampling rate can have a huge impact on the quality of the prediction. 
 
