@@ -66,6 +66,10 @@ The toolbox includes functions to sonify the estimated pitches as well as the be
 Returns the original piece with the extracted beats overlayed as clicks. 
 To receive the same results as in the feature extraction, the same starting value as used for the tempo extraction should be used. 
 
+#### onset_eval = onset_evaluation(onset_env, y, sr):
+
+Returns the piece with the extracted onsets overlayed as clicks. The onset envelope should be the envelope returned by the onset frequency extraction function.
+
 #### pitch_eval = evaluate_pitch(pitches, times, sr):
 
 Pitch sonification for the melody line if using vocal music. Returns the sonified pitch contour estimated for the vocal melody. Only applicable if category = "voice" in the pitch extraction. 
