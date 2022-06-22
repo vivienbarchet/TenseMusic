@@ -114,7 +114,8 @@ This function plots all the features over time with a predefined color list and 
 
 This function smoothes the extracted features using a running mean filter. The window size is determined by the sampling rate as well as by the length of the audio piece at hand.
 
-### Resampling the features: The toolbox includes methodes to resample at 10 Hz or at the beats (recommended: resampling at the beats)
+### Resampling the features: 
+The toolbox includes methodes to resample at 10 Hz or at the beats (recommended: resampling at the beats)
 
 #### all_features_beat, all_features_beat_unsmoothed, beat_times = feature_resampling_beat(onset_env,sr, features_smooth, df_plot):
 
