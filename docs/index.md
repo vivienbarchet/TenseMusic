@@ -92,11 +92,51 @@ audio.export("polyphonic_pitch.wav", format="wav", bitrate="64k")
 The tension prediction involves several steps: 
 
 - Standardizing and merging all features 
+
+#### df_all_features, df_plot, pitch_df, onset_env = feature_extraction(y, sr, trimmed_audio_path):
+
+This function extracts all features applying the functions explained above. Additionally, it merges all features at the desired sampling rate (as all features are extracted at different time scales). Finally, it z-standardizes all feature scores. Here, the pitch lines are integrated into one variable to use the common mean and standard deviation of all lines for z-standardization. 
+
+The function returns a dataframe containing all features and time stamps, as well as the same dataframe in which na values have been padded for plotting purposes. Additionally, the dataframe containing all pitch lines and the onset envelope are returned for use in other functions. 
+
+
 - (Optional) Plotting all features over time
+
+#### plot_features(df_plot, color_list):
+
+This function plots all the features over time with a predefined color list and simultaneously generates a legend. 
+
+
 - Smoothing the features to enable an adequate slope detection
+
+#### features_smooth = feature_smoothing(df_plot):
+
+This function smoothes the extracted features using a running mean filter. The window size is determined by the sampling rate as well as by the length of the audio piece at hand.
+
 - Resampling the features: The toolbox includes methodes to resample at 10 Hz or at the beats (recommended: resampling at the beats)
+
+#### all_features_beat, all_features_beat_unsmoothed, beat_times = feature_resampling_beat(onset_env,sr, features_smooth, df_plot):
+
+Resamples the smoothed features at the beats. Here, we use the onset envelope that was already calculated in the onset frequency function. Besides the smoothed features sampled at the beats, the unsmoothed features sampled at the beats are returned in a dataframe for plotting purposes. Additionally, the beat time stamps (in seconds) are returned.
+
+#### all_features_10Hz, all_features_10Hz_unsmoothed = feature_resampling_10Hz(features_smooth, df_plot):
+
+The function resamples the smoothed features at 10 Hz (10 sampling points per second), as this time scale was used in previous research. The function returns a dataframe containing the smoothed features sampled at 10 Hz for tension prediction as well as another dataframe containing the unsmoothed features sampled at 10 Hz for plotting purposes.
+
 - Tension prediction: The toolbox implements two different versions of the tension prediction that rely on the same basic model. One method uses different attentional windows for each feature. The other method applies different weights to every feature. See the publication for more details. We recommend using different attentional windows as this methods yielded the best results for our investigation and additionally, it seems to display a cognitively plausible method. 
+
+In total, the toolbox includes for functions for tension prediction: One function for each method x sampling rate combination. Please note, that the difference in sampling rate (10 Hz versus beats) is only relevant for the actual tension prediction. After the tension prediction, the predicted tension is automatically resampled at the beats to join the tension with the behavioral responses. Although it is only relevant for this step, the choice of sampling rate can have a huge impact on the quality of the prediction. 
+
+
+#### slopes_beat_window = tension_extraction_beat_window(all_features_beat,df_plot)
+
+
+
 - (Optional) Plotting the predicted tension and the feature graphs
+
+
+
+
 
 
 
