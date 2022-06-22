@@ -1,7 +1,8 @@
 # Documentation
 
-The toolbox aims at predicting tension from musical files. The tension prediction requires several steps, with feature extraction and tension prediction 
-being the most crucial ones. 
+The toolbox aims at predicting tension from musical files. The tension prediction requires several steps, beginning with loading the audio and cutting off silence from the files. The next step involves extracting loudness, tempo, onset frequency, pitch height, and dissonance from the audio files. These features are then, in a final step, used to predict the perceived tension. An additional optional step includes sonifying some of the features to evaluate the extraction performance for the specific piece at hand.
+
+The tension extraction relies on the tension model developed by Farbood and Upham (https://www.frontiersin.org/articles/10.3389/fpsyg.2013.00998/full). 
 
 Please note that the toolbox was developed to work with .wav files. Consider transforming your music files to .wav in order to use the functions. 
 
@@ -88,7 +89,11 @@ The tension prediction involves several steps:
 - (Optional) Plotting all features over time
 - Smoothing the features to enable an adequate slope detection
 - Resampling the features: The toolbox includes methodes to resample at 10 Hz or at the beats (recommended: resampling at the beats)
-- Tension prediction: The toolbox implements two different versions of the tension prediction that rely on the same basic model. One method uses different attentional windows for each feature. The other method applies different weights to every feature. See the publication for more details. We recommend using different attentional windows as this methods yielded the best results for our investigation and additionally, seems to display a cognitively plausible method. 
+- Tension prediction: The toolbox implements two different versions of the tension prediction that rely on the same basic model. One method uses different attentional windows for each feature. The other method applies different weights to every feature. See the publication for more details. We recommend using different attentional windows as this methods yielded the best results for our investigation and additionally, it seems to display a cognitively plausible method. 
+- (Optional) Plotting the predicted tension and the feature graphs
+
+
+
 
 
 
