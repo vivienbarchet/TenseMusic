@@ -8,13 +8,15 @@ Please note that the toolbox was developed to work with .wav files. Consider tra
 
 ### 1. Loading Audio & Basics
 
-#### audio_read_trim(file_name, path, sr = 44100):
+#### y,sr,trimmed_audio_path = music_loading(file_name, path, sr = 44100):
 
 Loads the audio at your desired sampling rate (default is 44.1 kHz). Additionally, the function trims any silence from the beginning and the end of the audio
 and saves a trimmed version of your audio at the path provided. 
 
 file_name = File name of your piece (without adding .wav)
 path = absolute or relative path to your .wav
+
+Returns the trimmed audio file, the sampling rate, and the path to the trimmed audio file for later use during feature extraction.
 
 
 ### 2. Feature extraction
