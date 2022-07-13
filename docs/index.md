@@ -2,7 +2,7 @@
 
 The toolbox aims at predicting tension from musical files. The tension prediction requires several steps, beginning with loading the audio and cutting off silence from the files. The next step involves extracting loudness, tempo, onset frequency, pitch height, and dissonance from the audio files. These features are then, in a final step, used to predict the perceived tension. An additional optional step includes sonifying some of the features to evaluate the extraction performance for the specific piece at hand.
 
-The tension extraction relies on the tension model developed by Farbood and Upham (https://www.frontiersin.org/articles/10.3389/fpsyg.2013.00998/full). 
+The tension extraction relies on the tension model developed by Farbood (2012, https://online.ucpress.edu/mp/article/29/4/387/46442/A-Parametric-Temporal-Model-of-Musical-Tension)
 
 Please note that the toolbox was developed to work with .wav files. Consider transforming your music files to .wav in order to use the functions. 
 
@@ -36,7 +36,7 @@ Returns the onset envelope (used again later), the estimated onset frequencies a
 five seconds. This might happen if the piece involves strong changes in character or instrumentation. 
 If the window without detected onsets lies in the end or the beginning of the piece, the toolbox involves a procedure to estimate onsets for the two 
 windows seperately and clipping the parts together afterwards. If the window lies in the middle of the piece, you have to judge if the onset estimation
-seems to work accurately or not and make adequate adjustments. 
+seems to work accurately or not and make adequate adjustments. Consider using the onset sonification function to evaluate the onset detection.
 
 #### [loudness, t_loudness] = extract_loudness(y, sr):
 
@@ -115,27 +115,39 @@ This function plots all the features over time with a predefined color list and 
 This function smoothes the extracted features using a running mean filter. The window size is determined by the sampling rate as well as by the length of the audio piece at hand.
 
 ### Resampling the features: 
-The toolbox includes methodes to resample at 10 Hz or at the beats (recommended: resampling at the beats)
+For the tension extraction, the features will be resampled at 10 Hz in a next step.
 
-#### all_features_beat, all_features_beat_unsmoothed, beat_times = feature_resampling_beat(onset_env,sr, features_smooth, df_plot):
-
-Resamples the smoothed features at the beats. Here, we use the onset envelope that was already calculated in the onset frequency function. Besides the smoothed features sampled at the beats, the unsmoothed features sampled at the beats are returned in a dataframe for plotting purposes. Additionally, the beat time stamps (in seconds) are returned.
 
 #### all_features_10Hz, all_features_10Hz_unsmoothed = feature_resampling_10Hz(features_smooth, df_plot):
 
 The function resamples the smoothed features at 10 Hz (10 sampling points per second), as this time scale was used in previous research. The function returns a dataframe containing the smoothed features sampled at 10 Hz for tension prediction as well as another dataframe containing the unsmoothed features sampled at 10 Hz for plotting purposes.
 
 ### Tension prediction: 
-The toolbox implements two different versions of the tension prediction that rely on the same basic model. One method uses different attentional windows for each feature. The other method applies different weights to every feature. See the publication for more details. We recommend using different attentional windows as this methods yielded the best results for our investigation and additionally, it seems to display a cognitively plausible method. 
+The toolbox implements two different versions of the tension prediction that rely on the same basic model. One method uses different attentional windows for each feature. The other method applies different weights to every feature. See the publication for more details. We recommend using different weights for each feature as this methods yielded the best results for our investigation and additionally, it seems to display a cognitively plausible method by providing estimates of perceptual salience. 
 
-In total, the toolbox includes for functions for tension prediction: One function for each method x sampling rate combination. Please note, that the difference in sampling rate (10 Hz versus beats) is only relevant for the actual tension prediction. After the tension prediction, the predicted tension is automatically resampled at the beats to join the tension with the behavioral responses. Although it is only relevant for this step, the choice of sampling rate can have a huge impact on the quality of the prediction. 
+The toolbox includes the tension prediction involving our optimized weights and window durations, as well as the functions containing the weights and windows suggested by Farbood (2012) and Farbood and Upham (2013). 
+
+#### df_slopes = tension_extraction_10Hz_weights(all_features_10Hz, model_configuration = ['optimized', 'original'])
+
+This is the recommended tension extraction function. It extracts tension from the features sampled at 10 Hz and uses different weights for every feature. The model can be configured in the optimized version for our behavioral data or in the original version developed by Farbood (2012). 
+
+The function returns the tension prediction sampled at 10Hz. 
 
 
-#### slopes_beat_window = tension_extraction_beat_window(all_features_beat,df_plot)
+#### df_slopes =  tension_extraction_10Hz_window(all_features_10Hz, model_configuration = ['optimized', 'original'])
+
+This function estimates tension with different window sizes for each of the features. The model can be applied with the original configuration incorporating the window sizes suggested by Farbood & Upham (2013) or with the window sizes optimized to fit our behvioral data. 
+
+The function returns the tension prediction sampled at 10Hz. 
 
 
 
-- (Optional) Plotting the predicted tension and the feature graphs
+
+### (Optional) Plotting the predicted tension and the feature graphs
+
+#### plot_tension_and_features_10Hz(df_slopes, all_features_10Hz_unsmoothed, color_list)
+
+This function plots the tension prediction and the feature graphs. 
 
 
 
