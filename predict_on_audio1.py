@@ -303,7 +303,7 @@ def save_singlef0_output(times, freqs, output_path):
 
 
 def compute_output(hcqt, time_grid, freq_grid, task, output_format, threshold,
-                   use_neg, save_dir, save_name):
+                   use_neg):
     """Comput output for a given task
 
     Parameters
@@ -334,23 +334,10 @@ def compute_output(hcqt, time_grid, freq_grid, task, output_format, threshold,
     pitch_activation_mat = get_single_test_prediction(model, hcqt)
 
     print("Saving output...")
-    if output_format == 'singlef0':
-        times, freqs = get_singlef0(
-            pitch_activation_mat, freq_grid, time_grid, thresh=threshold,
-            use_neg=use_neg
-        )
-        save_path = os.path.join(
-            save_dir, "{}_{}_singlef0.csv".format(save_name, task))
-        save_singlef0_output(times, freqs, save_path)
-    elif output_format == 'multif0':
+    if output_format == 'multif0':
         times, freqs = get_multif0(
             pitch_activation_mat, freq_grid, time_grid, thresh=threshold)
         return times,freqs
-    else:
-        save_path = os.path.join(
-            save_dir, "{}_{}_salience.npz".format(save_name, task))
-        np.savez(save_path, salience=pitch_activation_mat, times=time_grid,
-            freqs=freq_grid)
 
     print("Done!")
 
