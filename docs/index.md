@@ -83,7 +83,9 @@ Pitch sonification for polyphonic pieces. The input should be the dataframe retu
 If you wish to save the audios, this can be achieved by: 
 
 audio = ipd.Audio(pitch_eval, rate=sr)
+
 audio = AudioSegment(audio.data, frame_rate=sr, sample_width=2, channels=1)
+
 audio.export("polyphonic_pitch.wav", format="wav", bitrate="64k")
 
 
