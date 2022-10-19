@@ -96,60 +96,41 @@ The tension prediction involves several steps:
 
 ### Standardizing and merging all features 
 
-#### df_all_features, df_plot, pitch_df, onset_env = feature_extraction(y, sr, trimmed_audio_path):
+#### df_all_features, pitch_df, onset_env = feature_extraction(y, sr, trimmed_audio_path):
 
-This function extracts all features applying the functions explained above. Additionally, it merges all features at the desired sampling rate (as all features are extracted at different time scales). Finally, it z-standardizes all feature scores. Here, the pitch lines are integrated into one variable to use the common mean and standard deviation of all lines for z-standardization. 
+This function extracts all features applying the functions explained above. Additionally, it merges all features at the desired sampling rate (as all features are extracted at different time scales). The pitch lines are combined into one aggregated pitch score. 
 
-The function returns a dataframe containing all features and time stamps, as well as the same dataframe in which na values have been padded for plotting purposes. Additionally, the dataframe containing all pitch lines and the onset envelope are returned for use in other functions. 
+The function returns a dataframe containing all z-standardized features and time stamps. Additionally, the dataframe containing all pitch lines and the onset envelope are returned for use in other functions. 
 
-
-### (Optional) Plotting all features over time
-
-#### plot_features(df_plot, color_list):
-
-This function plots all the features over time with a predefined color list and simultaneously generates a legend. 
 
 
 ### Smoothing the features to enable an adequate slope detection
 
-#### features_smooth = feature_smoothing(df_plot):
+#### df_features, features_unsmoothed = feature_smoothing_resampling(df_all_features):
 
-This function smoothes the extracted features using a running mean filter. The window size is determined by the sampling rate as well as by the length of the audio piece at hand.
+This function smoothes the extracted features using a running mean filter and resamples them at 10 Hz. The function returns the smoothed and the unsmoothed features sampled at 10 Hz. 
 
-### Resampling the features: 
-For the tension extraction, the features will be resampled at 10 Hz in a next step.
-
-
-#### all_features_10Hz, all_features_10Hz_unsmoothed = feature_resampling_10Hz(features_smooth, df_plot):
-
-The function resamples the smoothed features at 10 Hz (10 sampling points per second), as this time scale was used in previous research. The function returns a dataframe containing the smoothed features sampled at 10 Hz for tension prediction as well as another dataframe containing the unsmoothed features sampled at 10 Hz for plotting purposes.
 
 ### Tension prediction: 
-The toolbox implements two different versions of the tension prediction that rely on the same basic model. One method uses different attentional windows for each feature. The other method applies different weights to every feature. See the publication for more details. We recommend using different weights for each feature as this methods yielded the best results for our investigation and additionally, it seems to display a cognitively plausible method by providing estimates of perceptual salience. 
+The toolbox implements two different versions of the tension prediction that rely on the same basic model. One method uses different attentional windows for each feature. The other method applies different weights to every feature. See the publication for more details. The toolbox uses our optimized weights and window durations. 
 
-The toolbox includes the tension prediction involving our optimized weights and window durations, as well as the functions containing the weights and windows suggested by Farbood (2012) and Farbood and Upham (2013). 
+#### tension_with_time, feature_slopes = tension_prediction(df_features, model_variant = ['weight', 'time_scale'])
 
-#### df_slopes = tension_extraction_10Hz_weights(all_features_10Hz, model_configuration = ['optimized', 'original'])
+This function predicts tension from the musical features using the trend salience model (Farbood, 2012). 
+The model can be configured to allow for different feature window sizes or to use a fixed window size across all features. 
 
-This is the recommended tension extraction function. It extracts tension from the features sampled at 10 Hz and uses different weights for every feature. The model can be configured in the optimized version for our behavioral data or in the original version developed by Farbood (2012). 
-
-The function returns the tension prediction sampled at 10Hz. 
-
-
-#### df_slopes =  tension_extraction_10Hz_window(all_features_10Hz, model_configuration = ['optimized', 'original'])
-
-This function estimates tension with different window sizes for each of the features. The model can be applied with the original configuration incorporating the window sizes suggested by Farbood & Upham (2013) or with the window sizes optimized to fit our behvioral data. 
-
-The function returns the tension prediction sampled at 10Hz. 
+###### Returns: 
+tension_with_time: dataframe with time and the tension prediction sampled at 10 Hz 
+feature_slopes: The slopes for all features estimated using our optimized window sizes. 
 
 
 
 
 ### (Optional) Plotting the predicted tension and the feature graphs
 
-#### plot_tension_and_features_10Hz(df_slopes, all_features_10Hz_unsmoothed, color_list)
+#### plot_tension_and_features_10Hz(tension_with_time, feature_slopes)
 
-This function plots the tension prediction and the feature graphs. 
+This function plots the tension prediction and the feature slopes. 
 
 
 
