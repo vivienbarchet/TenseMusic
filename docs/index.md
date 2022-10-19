@@ -14,6 +14,7 @@ Loads the audio at your desired sampling rate (default is 44.1 kHz). Additionall
 and saves a trimmed version of your audio at the path provided. 
 
 file_name = File name of your piece (without adding .wav)
+
 path = absolute or relative path to your .wav
 
 Returns the trimmed audio file, the sampling rate, and the path to the trimmed audio file for later use during feature extraction.
@@ -121,6 +122,7 @@ The model can be configured to allow for different feature window sizes or to us
 
 ###### Returns: 
 tension_with_time: dataframe with time and the tension prediction sampled at 10 Hz 
+
 feature_slopes: The slopes for all features estimated using our optimized window sizes. 
 
 
