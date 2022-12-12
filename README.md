@@ -1,4 +1,4 @@
-# Musical Tension Prediction (MusTen)
+# An Automatic Prediction Model for Musical Tension (TenseMusic)
 
 MusTen is a python-based model automatically predicting musical tension from musical audio files. 
 
