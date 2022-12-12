@@ -1,4 +1,4 @@
-librosa
+conda install -c conda-forge librosa
 numpy
 matplotlib
 IPython
