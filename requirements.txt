@@ -10,3 +10,4 @@ spleeter
 pydub
 soundfile
 mir_eval
+crepe
