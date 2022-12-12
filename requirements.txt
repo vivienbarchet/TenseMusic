@@ -9,3 +9,4 @@ import_ipynb
 spleeter
 pydub
 soundfile
+mir_eval
