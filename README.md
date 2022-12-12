@@ -14,6 +14,4 @@ This repository contains:
 - All music files we used during the model optimization 
 - Our behavioral data (raw and sampled at 50 Hz as well as filtered and sampled at 10 Hz) 
 
-The notebooks can be executed interactively by clicking on the icon below.
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/vivienbarchet/MusTen/HEAD)
