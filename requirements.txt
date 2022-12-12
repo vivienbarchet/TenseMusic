@@ -1,0 +1,15 @@
+functools
+glob
+pandas
+matplotlib
+numpy
+scipy
+librosa
+math
+statistics
+pingouin
+sklearn
+re
+seaborn
+statsmodels
+rpy2
