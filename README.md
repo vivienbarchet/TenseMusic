@@ -16,4 +16,4 @@ This repository contains:
 
 The notebooks can be executed interactively by clicking on the icon below.
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/vivienbarchet/MusTen/HEAD?urlpath=https%3A%2F%2Fgithub.com%2Fvivienbarchet%2FMusTen%2Ftree%2Fmain%2Fnotebooks%2Fexample1.ipynb)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/vivienbarchet/MusTen/HEAD)
