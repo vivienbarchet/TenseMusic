@@ -4,7 +4,6 @@ matplotlib
 IPython
 scipy
 dissonant
-os
 pandas
 import_ipynb
 spleeter
