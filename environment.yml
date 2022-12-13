@@ -19,4 +19,5 @@ dependencies:
     - crepe
     - soundfile
     - pydub
+    - import_ipynb
 prefix: /opt/anaconda3/envs/binder_env
