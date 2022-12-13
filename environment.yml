@@ -8,7 +8,6 @@ dependencies:
   - numpy
   - matplotlib
   - scipy
-  - conda-forge
   - ffmpeg
   - libsndfile
   - pip:
