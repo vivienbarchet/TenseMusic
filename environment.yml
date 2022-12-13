@@ -10,6 +10,7 @@ dependencies:
   - scipy
   - ffmpeg
   - libsndfile
+  - seaborn
   - pip:
     - librosa
     - IPython
