@@ -15,4 +15,5 @@ This repository contains:
 - Our behavioral data (raw and sampled at 50 Hz as well as filtered and sampled at 10 Hz)
 
 Citation: 
+
 Barchet, A. V., Rimmele, J. M., & Pelofi, C. (2022, November 25). TenseMusic: An automatic prediction model for musical tension. https://doi.org/10.31234/osf.io/xck3w
