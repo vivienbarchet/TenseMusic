@@ -1,6 +1,6 @@
 # An Automatic Prediction Model for Musical Tension (TenseMusic)
 
-MusTen is a python-based model automatically predicting musical tension from musical audio files. 
+TenseMusic is a python-based model automatically predicting musical tension from musical audio files. 
 
 The tension prediction relies on the trend salience model developed by Farbood (2012). We enhanced this model by introducing automatic feature extraction methods, adjusting the tension prediction process, and optimizing the model on a set of 17 western classical pieces. 
 
