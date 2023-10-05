@@ -39,26 +39,23 @@ If the window without detected onsets lies in the end or the beginning of the pi
 windows seperately and clipping the parts together afterwards. If the window lies in the middle of the piece, you have to judge if the onset estimation
 seems to work accurately or not and make adequate adjustments. Consider using the onset sonification function to evaluate the onset detection.
 
-#### [loudness, t_loudness] = extract_loudness(y, sr):
+#### [loudness, t_loudness] = extract_loudness(outpath, file_name):
 
-Estimates the loudness by calculating the root-mean-square for the smoothed audio. Returns the loudness estimate and the time points in seconds. 
+Estimating the loudness using the Zwicker model for temporally variable sounds implemented in the python library MoSQITo. 
 
-#### pitch_df = pitch_extraction(audio_fpath,sr, category = ["voice", "polyphonic", "solo"], melody_lower = 'C2', melody_higher = 'C6'):
+#### pitch_df, pitch_score, times = pitch_extraction(outpath, file_name,sr):
 
-Estimates the pitch height in the audio. The toolbox implements different pitch estimation methods. 
-For solo music, it relies on probabilistic YIN (https://librosa.org/doc/main/generated/librosa.pyin.html). For polyphonic music, the toolbox uses 
-deep salience representations for f0 estimation (https://github.com/rabitt/ismir2017-deepsalience). For vocal music, the toolbox first seperates the 
-voiced melody from the background using spleeter (https://github.com/deezer/spleeter) and then uses pYIN for the melody and deep salience representations 
-for the accompainment. Returns a dataframe with time points as well as pitch estimates for all lines.
-
-For solo and vocal music, the pitch estimation will be improved by providing estimates of the lowest and the highest notes in the melody. The estimates will not be used for polyphonic pitch estimation. 
+Estimates the pitch height in the audio. The toolbox uses 
+deep salience representations for f0 estimation (https://github.com/rabitt/ismir2017-deepsalience). Returns a dataframe with time points as well as pitch estimates for all lines. Additionally, the pitch score as the aggregated mean of all pitches at each time point is returned. 
 
 
-#### [dissonance, t_dissonance] = dissonance_extraction(pitch_df, sr):
+#### [tensile, t_tonal] = tonal_tension_extraction(file_name):
 
-Estimates the dissonance at each time point by using the pitch estimated by the pitch extraction. Dissonance is defined as the maximum pairwise dissonance 
-computed by dissonant.py (https://pypi.org/project/dissonant/). 
+Estimates tonal tension using the model developed by Herremans and Chew (2016) based on the spiral array theory. The model is implemented in the python library midi-miner. The midi input required for the estimation of tonal tension is created using the python package basic-pitch. Tonal tension is estimated as the tensile strain as defined by Herremans and Chew (2016). 
 
+#### [roughness, t_roughness] = roughness_extraction(outpath, file_name):
+
+Estimates roughness using the algorithm developed by Daniel and Weber (1997) implemented in MoSQITo. 
 
 ## 3. (Optional) Checking feature extraction by sonification
 
@@ -72,10 +69,6 @@ To receive the same results as in the feature extraction, the same starting valu
 #### onset_eval = onset_evaluation(onset_env, y, sr):
 
 Returns the piece with the extracted onsets overlayed as clicks. The onset envelope should be the envelope returned by the onset frequency extraction function.
-
-#### pitch_eval = evaluate_pitch(pitches, times, sr):
-
-Pitch sonification for the melody line if using vocal music. Returns the sonified pitch contour estimated for the vocal melody. Only applicable if category = "voice" in the pitch extraction. 
 
 #### pitch_eval, pitch_lists = evaluate_polyphonic_pitch(pitch_df, sr):
 
@@ -97,11 +90,11 @@ The tension prediction involves several steps:
 
 ### Standardizing and merging all features 
 
-#### df_all_features, pitch_df, onset_env = feature_extraction(y, sr, trimmed_audio_path):
+#### df_all_features, df_plot = feature_extraction(outpath, y,sr,file_name, start_bpm = 80):
 
 This function extracts all features applying the functions explained above. Additionally, it merges all features at the desired sampling rate (as all features are extracted at different time scales). The pitch lines are combined into one aggregated pitch score. 
 
-The function returns a dataframe containing all z-standardized features and time stamps. Additionally, the dataframe containing all pitch lines and the onset envelope are returned for use in other functions. 
+The function returns a dataframe containing all z-standardized features and time stamps. 
 
 
 
@@ -126,13 +119,6 @@ tension_with_time: dataframe with time and the tension prediction sampled at 10 
 feature_slopes: The slopes for all features estimated using our optimized window sizes. 
 
 
-
-
-### (Optional) Plotting the predicted tension and the feature graphs
-
-#### plot_tension_and_features_10Hz(tension_with_time, feature_slopes)
-
-This function plots the tension prediction and the feature slopes. 
 
 
 
