@@ -4,7 +4,7 @@ TenseMusic is a python-based model automatically predicting musical tension from
 
 The tension prediction relies on the trend salience model developed by Farbood (2012). We enhanced this model by introducing automatic feature extraction methods, adjusting the tension prediction process, and optimizing the model on a set of 38 western classical pieces. 
 
-Details about the automization process and the model optimization can be found here: https://psyarxiv.com/xck3w/
+Details about the automization process and the model optimization can be found here: https://doi.org/10.1371/journal.pone.0296385
 
 This repository contains: 
 - Notebooks defining our custom functions for the tension prediction and the feature extraction 
@@ -17,4 +17,4 @@ This repository contains:
 
 Citation: 
 
-Barchet, A. V., Rimmele, J. M., & Pelofi, C. (2022, November 25). TenseMusic: An automatic prediction model for musical tension. https://doi.org/10.31234/osf.io/xck3w
+Barchet AV, Rimmele JM, Pelofi C (2024) TenseMusic: An automatic prediction model for musical tension. PLOS ONE 19(1): e0296385. https://doi.org/10.1371/journal.pone.0296385
